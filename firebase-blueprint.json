@@ -1,0 +1,76 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile and role information",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "role": { "type": "string", "enum": ["employee", "manager", "admin"] },
+        "teamId": { "type": "string" },
+        "photoURL": { "type": "string" }
+      },
+      "required": ["email", "role"]
+    },
+    "Project": {
+      "title": "Project",
+      "description": "Project or initiative details",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "archived"] }
+      },
+      "required": ["name"]
+    },
+    "EffortSubmission": {
+      "title": "Effort Submission",
+      "description": "Monthly effort entry per employee",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "month": { "type": "string", "description": "Format YYYY-MM" },
+        "status": { "type": "string", "enum": ["draft", "submitted", "needs_revision", "approved"] },
+        "totalHours": { "type": "number" },
+        "allocations": {
+          "type": "array",
+          "items": { "type": "object" }
+        },
+        "managerId": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "month", "status"]
+    },
+    "Message": {
+      "title": "Message",
+      "description": "Chat message context for a submission",
+      "type": "object",
+      "properties": {
+        "senderId": { "type": "string" },
+        "content": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["senderId", "content", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/projects/{projectId}": {
+      "schema": "Project",
+      "description": "Company projects"
+    },
+    "/submissions/{submissionId}": {
+      "schema": "EffortSubmission",
+      "description": "Monthly submissions"
+    },
+    "/submissions/{submissionId}/chat/{messageId}": {
+      "schema": "Message",
+      "description": "Chat messages for a specific submission"
+    }
+  }
+}
