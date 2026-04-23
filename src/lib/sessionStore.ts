@@ -36,7 +36,7 @@ export const sessionStore = {
             userName: 'John Dev',
             userRole: 'employee',
             month: monthStr,
-            status: 'approved',
+            status: 'needs_revision',
             allocations: [
               { projectId: 'erm', projectName: 'ERM Assess', role: 'Devops Engineer', targetPercent: 0, plannedPercent: 70 },
               { projectId: 'time-off', projectName: 'Time-Off', role: 'Devops Engineer', targetPercent: 0, plannedPercent: 30 }

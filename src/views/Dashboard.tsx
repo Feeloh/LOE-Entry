@@ -402,7 +402,7 @@ export default function Dashboard() {
             <div className="p-3 lg:p-4 border-b border-border-base/60 flex items-center justify-between bg-white shrink-0 px-4 lg:px-8 z-20">
               <div className="flex items-center gap-2">
                 <ShieldCheck className="w-3.5 h-3.5 lg:w-4 h-4 text-primary-base" />
-                <h2 className="font-bold text-text-main text-[10px] lg:text-[11px] uppercase tracking-[0.15em]">Notification Panel</h2>
+                <h2 className="font-bold text-text-main text-[10px] lg:text-[11px] uppercase tracking-[0.15em]">Chat Panel</h2>
               </div>
               {messages.length > 0 && <div className="w-1.5 lg:w-2 h-1.5 lg:h-2 rounded-full bg-success-base shadow-[0_0_8px_#10B981]" />}
             </div>
