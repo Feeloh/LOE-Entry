@@ -43,9 +43,9 @@ export default function Login() {
             <div className="w-12 h-12 bg-sidebar-base rounded-xl flex items-center justify-center shadow-lg transform rotate-3">
               <Zap className="w-7 h-7 text-white" />
             </div>
-            <h1 className="text-4xl font-black text-text-main tracking-tighter uppercase italic">LOE<span className="text-primary-base">.Matrix</span></h1>
+            <h1 className="text-4xl font-black text-text-main tracking-tighter uppercase italic">LOE</h1>
           </motion.div>
-          <p className="text-text-muted font-bold uppercase tracking-[0.2em] text-xs">PixelEdge Internal Resource Management</p>
+          <p className="text-text-muted font-bold uppercase tracking-[0.2em] text-xs">PixelEdge LOE Management</p>
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
