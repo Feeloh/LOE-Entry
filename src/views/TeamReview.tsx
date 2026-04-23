@@ -336,7 +336,7 @@ export default function TeamReview() {
             )}>
               <div className="flex items-center gap-2">
                 <ShieldCheck className="w-3.5 h-3.5 lg:w-4 h-4 text-primary-base" />
-                <h3 className="font-bold text-text-main text-[10px] lg:text-[11px] uppercase tracking-[0.15em]">Verification Log</h3>
+                <h3 className="font-bold text-text-main text-[10px] lg:text-[11px] uppercase tracking-[0.15em]">Notification Panel</h3>
               </div>
               {messages.length > 0 && !isRevisionMode && (
                 <div className="w-1.5 h-1.5 lg:w-2 h-2 rounded-full bg-success-base shadow-[0_0_8px_#10B981]" />
