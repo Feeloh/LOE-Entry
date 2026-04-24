@@ -1,6 +1,6 @@
 {
   "name": "ResourceCore",
-  "description": "Enterprise resource planning and effort tracking tool for employees, managers, and administrators.",
+  "description": "Enterprise resource planning and effort tracking tool for employees, team leads, and administrators.",
   "requestFramePermissions": [],
   "majorCapabilities": []
 }

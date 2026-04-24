@@ -3,7 +3,7 @@ import { useAuth } from '../components/AuthProvider';
 import { submissionService } from '../services/submissionService';
 import { EffortSubmission, Message } from '../types';
 import { motion, AnimatePresence } from 'motion/react';
-import { CheckCircle, RotateCcw, MessageSquare, AlertTriangle, Send, MoreHorizontal, ShieldCheck, Trash2, AlertCircle, Plus, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
+import { CheckCircle, RotateCcw, MessageSquare, AlertTriangle, Send, MoreHorizontal, ShieldCheck, Trash2, AlertCircle, Plus, ChevronLeft, ChevronRight, ChevronDown, Bell } from 'lucide-react';
 import { cn } from '../lib/utils';
 
 export default function TeamReview() {
@@ -55,7 +55,7 @@ export default function TeamReview() {
     setActing(true);
     await submissionService.sendMessage(selectedSubmission.id, {
       senderId: profile?.uid || '',
-      senderName: profile?.displayName || 'Manager',
+      senderName: profile?.displayName || 'Team Lead',
       content: `REVISION REQUESTED: ${newMessage.trim()}`
     });
     await submissionService.requestRevision(selectedSubmission.id);
@@ -70,7 +70,7 @@ export default function TeamReview() {
     if (!newMessage.trim() || !selectedSubmission?.id || !profile) return;
     await submissionService.sendMessage(selectedSubmission.id, {
       senderId: profile.uid,
-      senderName: profile.displayName || 'Manager',
+      senderName: profile.displayName || 'Team Lead',
       content: newMessage
     });
     setNewMessage('');
@@ -90,10 +90,10 @@ export default function TeamReview() {
   const canInitiateRevision = !acting && selectedSubmission?.status !== 'approved' && selectedSubmission?.status !== 'draft' && (!isAdmin || isManagerEntry);
 
   return (
-    <div className="h-full flex flex-col space-y-4 lg:space-y-8 pb-4 min-h-0 max-w-screen-2xl mx-auto w-full px-4 lg:px-8">
-      <header className="flex flex-col md:flex-row justify-between items-start md:items-center shrink-0 mb-4 lg:mb-8 mt-4 lg:mt-0 gap-4">
-        <div className="flex flex-col md:flex-row items-center justify-between w-full gap-4">
-          <div className="flex items-center gap-3 lg:gap-4 w-full md:w-auto">
+    <div className="h-full flex flex-col space-y-4 lg:space-y-8 pb-4 min-h-0 max-w-screen-2xl mx-auto w-full px-2 lg:px-8">
+      <header className="flex flex-row justify-between items-center shrink-0 mb-4 lg:mb-8 mt-4 lg:mt-0 gap-4">
+        <div className="flex flex-row items-center justify-between w-full gap-4">
+          <div className="flex items-center gap-3 lg:gap-4 w-auto">
             <span className="text-[10px] lg:text-[12px] font-bold text-text-muted uppercase tracking-widest opacity-60 shrink-0">Reporting Period:</span>
             <div className="relative">
               <button 
@@ -184,11 +184,11 @@ export default function TeamReview() {
         </div>
       </header>
 
-      <div className="flex-1 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 lg:gap-8 min-h-0 mb-4">
+      <div className="flex-1 grid grid-cols-12 gap-4 lg:gap-8 min-h-0 mb-4">
         {/* Left: Team Roster */}
-        <div className="xl:col-span-3 flex flex-col min-h-0 md:h-[400px] xl:h-auto">
+        <div className="col-span-3 flex flex-col min-h-0">
           <div className="bg-white border border-border-base/60 rounded-card overflow-hidden shadow-sm flex flex-col h-full min-h-0">
-            <div className="p-3 lg:p-4 border-b border-border-base/60 bg-slate-50/50 shrink-0 px-4 lg:px-8">
+            <div className="p-2 lg:p-4 border-b border-border-base/60 bg-slate-50/50 shrink-0 px-2 lg:px-6">
               <h3 className="font-bold text-text-main text-[10px] lg:text-[11px] uppercase tracking-[0.15em]">Team Overview</h3>
             </div>
             <div className="flex-1 overflow-y-auto scrollbar-hide divide-y divide-border-base/30">
@@ -197,7 +197,7 @@ export default function TeamReview() {
                   key={s.id}
                   onClick={() => setSelectedSubmission(s)}
                   className={cn(
-                    "w-full p-4 lg:p-5 px-4 lg:px-8 flex items-center gap-3 lg:gap-4 text-left transition-all group relative",
+                    "w-full p-2 lg:p-5 px-2 lg:px-6 flex items-center gap-1.5 lg:gap-4 text-left transition-all group relative",
                     selectedSubmission?.id === s.id 
                       ? "bg-primary-base text-white" 
                       : "bg-white hover:bg-slate-50"
@@ -225,16 +225,16 @@ export default function TeamReview() {
         </div>
 
         {/* Center: Detail View */}
-        <div className="md:col-span-2 xl:col-span-6 flex flex-col min-h-0 order-first md:order-none xl:h-auto">
+        <div className="col-span-6 flex flex-col min-h-0 order-none">
           <div className="bg-white border border-border-base/60 rounded-card overflow-hidden flex flex-col h-full min-h-0 shadow-sm">
             {selectedSubmission ? (
               <>
-                <div className="p-3 lg:p-4 border-b border-border-base/60 flex justify-between items-center bg-slate-50/50 shrink-0 px-4 lg:px-8">
+                <div className="p-2 lg:p-4 border-b border-border-base/60 flex justify-between items-center bg-slate-50/50 shrink-0 px-2 lg:px-8">
                   <h2 className="font-bold text-text-main text-[10px] lg:text-[11px] uppercase tracking-[0.15em] flex items-center gap-2">
-                    Team Review & Allocation Matrix
+                    Allocation Matrix
                   </h2>
-                  <button className="text-text-muted hover:text-text-main transition-colors">
-                    <MoreHorizontal className="w-5 h-5" />
+                  <button className="p-1 px-2 bg-slate-100 rounded text-text-muted hover:text-text-main transition-colors text-[9px] font-black uppercase tracking-widest">
+                    Details
                   </button>
                 </div>
 
@@ -243,9 +243,9 @@ export default function TeamReview() {
                     <table className="w-full text-left border-collapse min-w-[500px]">
                       <thead>
                         <tr className="border-b border-border-base/50 bg-slate-50/30">
-                          <th className="py-3 lg:py-4 px-4 lg:px-8 text-[9px] lg:text-[10px] font-black text-text-muted/60 uppercase tracking-[0.2em] w-3/5">Project Initiative</th>
-                          <th className="py-3 lg:py-4 px-4 text-[9px] lg:text-[10px] font-black text-text-muted/60 uppercase tracking-[0.2em] text-center">Alloc %</th>
-                          <th className="py-3 lg:py-4 px-4 lg:px-8 text-[9px] lg:text-[10px] font-black text-text-muted/60 uppercase tracking-[0.2em] text-center">Actions</th>
+                          <th className="py-2 lg:py-4 px-2 lg:px-8 text-[9px] lg:text-[10px] font-black text-text-muted/60 uppercase tracking-[0.2em] w-3/5">Project Initiative</th>
+                          <th className="py-2 lg:py-4 px-2 text-[9px] lg:text-[10px] font-black text-text-muted/60 uppercase tracking-[0.2em] text-center">Alloc %</th>
+                          <th className="py-2 lg:py-4 px-2 lg:px-8 text-[9px] lg:text-[10px] font-black text-text-muted/60 uppercase tracking-[0.2em] text-center">Actions</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-border-base/40">
@@ -267,17 +267,17 @@ export default function TeamReview() {
                       </tbody>
                     </table>
                   </div>
-                  <div className="p-4 lg:p-8">
-                    <button className="flex items-center gap-3 text-primary-base hover:text-primary-base/80 transition-all font-bold text-[10px] lg:text-[12px] uppercase tracking-widest opacity-40 cursor-not-allowed">
+                  <div className="p-4 lg:p-6">
+                    <button className="flex items-center gap-3 text-primary-base hover:text-primary-base/80 transition-all font-bold text-[10px] lg:text-[11px] uppercase tracking-widest opacity-40 cursor-not-allowed">
                       <Plus className="w-3.5 h-3.5 lg:w-4 h-4" />
                       Add Project Line Item
                     </button>
                   </div>
                 </div>
 
-                <div className="p-4 lg:p-8 bg-slate-50 border-t border-border-base shrink-0 space-y-4 lg:space-y-6">
-                  <div className="flex items-center gap-4 lg:gap-8">
-                    <div className="min-w-max text-[9px] lg:text-[10px] font-black text-text-muted/60 tracking-[0.2em] uppercase">Total Allocation:</div>
+                <div className="p-4 lg:p-6 bg-slate-50 border-t border-border-base shrink-0 space-y-4">
+                  <div className="flex items-center gap-4 lg:gap-6">
+                    <div className="min-w-max text-[9px] lg:text-[10px] font-black text-text-muted/60 tracking-[0.2em] uppercase">Total Utilization:</div>
                     <div className="flex-1 h-2 lg:h-3 bg-slate-200 rounded-full overflow-hidden flex">
                       <motion.div 
                         initial={{ width: 0 }}
@@ -285,7 +285,7 @@ export default function TeamReview() {
                         className="h-full transition-all duration-500 rounded-full bg-primary-base shadow-[0_0_12px_rgba(0,106,111,0.4)]"
                       />
                     </div>
-                    <div className="font-black text-xl lg:text-2xl w-16 lg:w-20 text-right italic tabular-nums tracking-tighter text-primary-base">
+                    <div className="font-black text-lg lg:text-xl w-16 lg:w-20 text-right italic tabular-nums tracking-tighter text-primary-base">
                       {selectedSubmission.totalHours || 168}.0
                     </div>
                   </div>
@@ -296,7 +296,7 @@ export default function TeamReview() {
                         disabled={!canInitiateRevision}
                         onClick={() => setIsRevisionMode(true)}
                         className={cn(
-                          "w-full sm:w-auto px-6 lg:px-8 py-2.5 lg:py-3 bg-white border border-border-base text-primary-base rounded-md font-bold text-[10px] lg:text-[11px] hover:bg-bg-base transition-all disabled:opacity-30 uppercase tracking-widest shadow-sm",
+                          "w-full sm:w-auto px-6 lg:px-8 py-2 lg:py-2.5 bg-white border border-border-base text-primary-base rounded-md font-bold text-[10px] lg:text-[11px] hover:bg-bg-base transition-all disabled:opacity-30 uppercase tracking-widest shadow-sm",
                           isRevisionMode && "border-red-200 bg-red-50 text-red-600"
                         )}
                       >
@@ -305,7 +305,7 @@ export default function TeamReview() {
                       <button 
                         disabled={!canApprove || isRevisionMode}
                         onClick={handleApprove}
-                        className="w-full sm:w-auto px-8 lg:px-10 py-2.5 lg:py-3 bg-action-lime text-[#1E293B] rounded-md font-bold text-[10px] lg:text-[11px] hover:shadow-lg transition-all disabled:opacity-30 uppercase tracking-widest shadow-sm"
+                        className="w-full sm:w-auto px-8 lg:px-10 py-2 lg:py-2.5 bg-action-lime text-[#1E293B] rounded-md font-bold text-[10px] lg:text-[11px] hover:shadow-lg transition-all disabled:opacity-30 uppercase tracking-widest shadow-sm"
                       >
                         Approve Entry
                       </button>
@@ -314,7 +314,7 @@ export default function TeamReview() {
                 </div>
               </>
             ) : (
-              <div className="h-full flex flex-col items-center justify-center text-text-muted p-6 lg:p-10 opacity-40 bg-slate-50/20">
+              <div className="h-full flex flex-col items-center justify-center text-text-muted p-6 lg:p-10 opacity-40 bg-slate-50/20 min-h-[300px]">
                 <div className="w-12 h-12 lg:w-16 h-16 border-4 border-dashed border-slate-200 rounded-full flex items-center justify-center mb-4 lg:mb-6">
                   <ShieldCheck className="w-6 h-6 lg:w-8 h-8 text-slate-200" />
                 </div>
@@ -325,13 +325,13 @@ export default function TeamReview() {
         </div>
 
         {/* Right: Discussion */}
-        <div className="xl:col-span-3 flex flex-col min-h-0 bg-transparent xl:h-auto">
+        <div className="col-span-3 flex flex-col min-h-0 bg-transparent">
           <div className={cn(
-            "bg-white border border-border-base/60 rounded-card overflow-hidden flex flex-col h-full min-h-0 transition-all duration-300 shadow-sm",
+            "bg-white border border-border-base/60 rounded-card overflow-hidden flex flex-col h-full min-h-[400px] lg:min-h-0 transition-all duration-300 shadow-sm",
             isRevisionMode ? "ring-2 ring-red-500/10 border-red-200" : ""
           )}>
             <div className={cn(
-              "p-3 lg:p-4 border-b border-border-base/60 flex items-center justify-between bg-slate-50/50 shrink-0 px-4 lg:px-8",
+              "p-2 lg:p-4 border-b border-border-base/60 flex items-center justify-between bg-slate-50/50 shrink-0 px-2 lg:px-8",
               isRevisionMode && "bg-red-50/30"
             )}>
               <div className="flex items-center gap-2">
@@ -339,7 +339,7 @@ export default function TeamReview() {
                 <h3 className="font-bold text-text-main text-[10px] lg:text-[11px] uppercase tracking-[0.15em]">Chat Panel</h3>
               </div>
               {messages.length > 0 && !isRevisionMode && (
-                <div className="w-1.5 h-1.5 lg:w-2 h-2 rounded-full bg-success-base shadow-[0_0_8px_#10B981]" />
+                <Bell className="w-3 h-3 lg:w-3.5 h-3.5 text-success-base animate-pulse" />
               )}
               {isRevisionMode && (
                  <button 
@@ -351,7 +351,7 @@ export default function TeamReview() {
               )}
             </div>
 
-            <div className="flex-1 overflow-y-auto p-4 lg:p-8 space-y-4 lg:space-y-6 flex flex-col scrollbar-hide bg-slate-50/10 min-h-[300px]">
+            <div className="flex-1 overflow-y-auto p-4 lg:p-6 space-y-4 lg:space-y-6 flex flex-col scrollbar-hide bg-slate-50/10 min-h-0">
               {messages.length === 0 && (
                 <div className="flex-1 flex flex-col items-center justify-center opacity-20 italic text-[11px] uppercase font-bold tracking-widest text-text-muted">
                    <MessageSquare className="w-8 h-8 mb-4 opacity-50" />
@@ -366,18 +366,18 @@ export default function TeamReview() {
               
               {messages.map((msg, idx) => (
                 <div key={idx} className={cn(
-                  "flex flex-col max-w-[95%] lg:max-w-[90%]",
+                  "flex flex-col max-w-[85%] lg:max-w-[80%]",
                   msg.senderId === profile?.uid ? "ml-auto items-end" : "mr-auto items-start"
                 )}>
-                  <div className="flex items-center gap-2 mb-1.5">
+                  <div className="flex items-center gap-2 mb-1.5 px-1">
                      {msg.senderId !== profile?.uid && (
-                       <div className="w-5 h-5 lg:w-6 h-6 rounded-full bg-slate-200 border border-border-base flex items-center justify-center text-[7px] lg:text-[8px] font-black text-text-muted italic">
+                       <div className="w-5 h-5 lg:w-6 h-6 rounded-full bg-slate-100 border border-border-base flex items-center justify-center text-[7px] lg:text-[8px] font-black text-text-muted italic shadow-sm">
                          {msg.senderName.charAt(0)}
                        </div>
                      )}
                      <span className="text-[8px] lg:text-[9px] font-black text-text-muted uppercase tracking-[0.28em] opacity-40">{msg.senderName}</span>
                      {msg.senderId === profile?.uid && (
-                       <div className="w-5 h-5 lg:w-6 h-6 rounded-full bg-primary-base border border-white/20 flex items-center justify-center text-[7px] lg:text-[8px] font-black text-white italic">
+                       <div className="w-5 h-5 lg:w-6 h-6 rounded-full bg-primary-base border border-white/20 flex items-center justify-center text-[7px] lg:text-[8px] font-black text-white italic shadow-sm">
                          {msg.senderName.charAt(0)}
                        </div>
                      )}
@@ -386,7 +386,7 @@ export default function TeamReview() {
                     "p-3 lg:p-4 text-[11px] lg:text-[12px] leading-relaxed rounded-xl whitespace-pre-wrap shadow-sm",
                     msg.senderId === profile?.uid 
                       ? "bg-primary-base text-white rounded-tr-none" 
-                      : "bg-white text-text-main border border-border-base rounded-tl-none shadow-sm"
+                      : "bg-white text-text-main border border-border-base rounded-tl-none shadow-[0_2px_4px_rgba(0,0,0,0.02)]"
                   )}>
                     {msg.content}
                   </div>
@@ -426,7 +426,7 @@ export default function TeamReview() {
           </div>
         </div>
       </div>
-
     </div>
   );
 }
+

@@ -79,9 +79,9 @@ export default function Planning() {
   }, 0);
 
   return (
-    <div className="h-full flex flex-col space-y-4 lg:space-y-8 pb-4 min-h-0 max-w-screen-2xl mx-auto w-full px-4 lg:px-8">
-      <header className="flex flex-col md:flex-row justify-between items-start md:items-center shrink-0 mb-4 lg:mb-8 mt-4 lg:mt-0 gap-4">
-        <div className="flex flex-col md:flex-row items-center gap-3 lg:gap-4 w-full md:w-auto">
+    <div className="h-full flex flex-col space-y-4 lg:space-y-8 pb-4 min-h-0 max-w-screen-2xl mx-auto w-full px-2 lg:px-8">
+      <header className="flex flex-row justify-between items-center shrink-0 mb-4 lg:mb-8 mt-4 lg:mt-0 gap-4">
+        <div className="flex flex-row items-center gap-3 lg:gap-4 w-auto">
           <span className="text-[10px] lg:text-[12px] font-bold text-text-muted uppercase tracking-widest opacity-60 shrink-0">Strategic Period:</span>
           <div className="relative">
             <button 
@@ -161,17 +161,17 @@ export default function Planning() {
       </header>
 
       {/* KPI Row */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6 shrink-0 h-auto">
+      <div className="grid grid-cols-4 gap-4 lg:gap-6 shrink-0 h-auto">
         {[
           { label: 'Avg Org utilization', value: `${avgUtilization}%`, sub: 'Current Month', icon: Activity, color: avgUtilization > 100 ? 'text-red-500' : 'text-primary-base' },
           { label: 'Monthly time-off', value: `${Math.round(timeOffTotal)}h`, sub: 'Total PTO Taken', icon: Coffee, color: 'text-text-main' },
           { label: 'Project Health', value: '88%', sub: 'Healthy Initiatives', icon: Heart, color: 'text-success-base' },
           { label: 'Open to Project', value: benchTeam.length, sub: `${Math.round(benchCapacity)}h Available`, icon: Briefcase, color: 'text-success-base' },
         ].map((kpi, idx) => (
-          <div key={idx} className="bg-white p-4 lg:p-6 rounded-card border border-border-base/60 shadow-sm relative group overflow-hidden">
-            <p className="text-[8px] lg:text-[10px] font-black text-text-muted uppercase tracking-[0.2em] mb-1 lg:mb-2 opacity-50 truncate">{kpi.label}</p>
-            <h3 className={cn("text-xl lg:text-3xl font-black italic tabular-nums leading-none", kpi.color)}>{kpi.value}</h3>
-            <p className="text-[8px] lg:text-[9px] font-bold text-text-muted/60 uppercase tracking-widest mt-1 lg:mt-2 truncate">{kpi.sub}</p>
+          <div key={idx} className="bg-white p-2 lg:p-6 rounded-card border border-border-base/60 shadow-sm relative group overflow-hidden">
+            <p className="text-[7px] lg:text-[10px] font-black text-text-muted uppercase tracking-[0.2em] mb-1 lg:mb-2 opacity-50 truncate">{kpi.label}</p>
+            <h3 className={cn("text-base lg:text-3xl font-black italic tabular-nums leading-none", kpi.color)}>{kpi.value}</h3>
+            <p className="text-[7px] lg:text-[9px] font-bold text-text-muted/60 uppercase tracking-widest mt-1 lg:mt-2 truncate">{kpi.sub}</p>
             <div className="absolute top-0 right-0 p-2 lg:p-4 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity">
               <kpi.icon className="w-10 lg:w-16 h-10 lg:h-16 rotate-12" />
             </div>
@@ -179,10 +179,10 @@ export default function Planning() {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 lg:gap-8 flex-1 min-h-0">
+      <div className="grid grid-cols-2 gap-4 lg:gap-8 flex-1 min-h-0">
         {/* Department Utilization Matrix */}
         <div className="bg-white border border-border-base/60 rounded-card overflow-hidden flex flex-col shadow-sm h-full">
-          <div className="p-3 lg:p-4 border-b border-border-base/60 bg-slate-50/50 shrink-0 px-4 lg:px-8 flex justify-between items-center">
+          <div className="p-2 lg:p-4 border-b border-border-base/60 bg-slate-50/50 shrink-0 px-2 lg:px-8 flex justify-between items-center">
             <div className="flex items-center gap-2">
               <Users className="w-3.5 h-3.5 lg:w-4 h-4 text-primary-base" />
               <h2 className="font-bold text-text-main text-[10px] lg:text-[11px] uppercase tracking-[0.15em]">Department utilization</h2>
@@ -243,7 +243,7 @@ export default function Planning() {
 
         {/* Portfolio Health Analysis */}
         <div className="bg-white border border-border-base/60 rounded-card overflow-hidden flex flex-col shadow-sm h-full">
-          <div className="p-3 lg:p-4 border-b border-border-base/60 bg-slate-50/50 shrink-0 px-4 lg:px-8 flex justify-between items-center">
+          <div className="p-2 lg:p-4 border-b border-border-base/60 bg-slate-50/50 shrink-0 px-2 lg:px-8 flex justify-between items-center">
             <div className="flex items-center gap-2">
               <Zap className="w-3.5 h-3.5 lg:w-4 h-4 text-action-lime" />
               <h2 className="font-bold text-text-main text-[10px] lg:text-[11px] uppercase tracking-[0.15em]">Portfolio Analysis</h2>
@@ -295,12 +295,6 @@ export default function Planning() {
           </div>
         </div>
       </div>
-
-      <footer className="shrink-0 pt-4 pb-2 text-center">
-        <p className="text-[10px] font-bold text-text-muted opacity-40 uppercase tracking-[0.3em]">
-          &copy; 2026 PixelEdge Inc. All rights reserved.
-        </p>
-      </footer>
     </div>
   );
 }

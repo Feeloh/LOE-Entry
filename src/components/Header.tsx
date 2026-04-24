@@ -39,7 +39,7 @@ export function Header({ onNavigate }: HeaderProps) {
   const getRoleLabel = (role: string) => {
     switch (role) {
       case 'admin': return 'Administrator';
-      case 'manager': return 'Manager';
+      case 'manager': return 'Team Lead';
       default: return 'Employee';
     }
   };
@@ -71,7 +71,7 @@ export function Header({ onNavigate }: HeaderProps) {
             </div>
             <div className="text-left hidden md:block">
               <p className="text-[11px] font-black text-text-muted uppercase tracking-widest leading-none mb-1 opacity-60">
-                Mock {getRoleLabel(profile?.role || 'employee')}
+                {getRoleLabel(profile?.role || 'employee')}
               </p>
               <p className="text-[13px] font-bold text-text-main truncate max-w-[120px] leading-none">
                 {profile?.displayName || 'User Session'}

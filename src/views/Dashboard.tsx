@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../components/AuthProvider';
 import { submissionService } from '../services/submissionService';
 import { EffortSubmission, Project, Allocation, Message } from '../types';
-import { Save, Send, Plus, Info, MessageSquare, AlertCircle, LayoutDashboard, ChevronLeft, ChevronRight, ChevronDown, Trash2, MoreHorizontal, ShieldCheck } from 'lucide-react';
+import { Save, Send, Plus, Info, MessageSquare, AlertCircle, LayoutDashboard, ChevronLeft, ChevronRight, ChevronDown, Trash2, MoreHorizontal, ShieldCheck, Bell } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../lib/utils';
 
@@ -53,7 +53,30 @@ export default function Dashboard() {
             { projectId: 'time-off', projectName: 'Time-Off (PTO / Holidays)', role: '-', targetPercent: 0, plannedPercent: 0 },
             { projectId: 'open-project', projectName: 'Open to New Project', role: '-', targetPercent: 0, plannedPercent: 0 }
           ],
-          totalHours: 0
+          totalHours: 0,
+          messages: [
+            {
+              id: 'init-1',
+              senderId: 'admin_user',
+              senderName: 'System Admin',
+              content: `The LOE reporting cycle for ${new Date(selectedMonth).toLocaleDateString([], { month: 'long', year: 'numeric' })} is now officially open. Please ensure all project allocations are accurately reflected before the submission deadline.`,
+              timestamp: new Date(new Date().getTime() - 86400000).toISOString() // 1 day ago
+            },
+            {
+              id: 'init-2',
+              senderId: 'mock_manager_id',
+              senderName: 'Team Lead',
+              content: "Team, please verify your billable percentages against the project roadmaps. Any variances over 10% from the previous month require an audit note.",
+              timestamp: new Date(new Date().getTime() - 43200000).toISOString() // 12 hours ago
+            },
+            {
+              id: 'init-3',
+              senderId: profile.uid,
+              senderName: profile.displayName || 'Resource',
+              content: "Initializing my monthly allocation matrix. I'll flag any capacity constraints once the BDC planning is finalized.",
+              timestamp: new Date().toISOString()
+            }
+          ]
         };
         setSubmission(initialSubmission as EffortSubmission);
       }
@@ -164,9 +187,9 @@ export default function Dashboard() {
   const canEdit = !isLocked || isRevisionRequested;
 
   return (
-    <div className="h-full flex flex-col space-y-4 lg:space-y-8 pb-4 min-h-0 max-w-screen-2xl mx-auto w-full px-4 lg:px-8">
-      <header className="flex flex-col md:flex-row justify-between items-start md:items-center shrink-0 mb-4 lg:mb-8 mt-4 lg:mt-0 gap-4">
-        <div className="flex flex-col md:flex-row items-center gap-3 lg:gap-4 w-full md:w-auto">
+    <div className="h-full flex flex-col space-y-4 lg:space-y-8 pb-4 min-h-0 max-w-screen-2xl mx-auto w-full px-2 lg:px-8">
+      <header className="flex flex-row justify-between items-center shrink-0 mb-4 lg:mb-8 mt-4 lg:mt-0 gap-4">
+        <div className="flex flex-row items-center gap-3 lg:gap-4 w-auto">
           <span className="text-[10px] lg:text-[12px] font-bold text-text-muted uppercase tracking-widest opacity-60 shrink-0">Reporting Period:</span>
           <div className="relative">
             <button 
@@ -278,11 +301,11 @@ export default function Dashboard() {
         </motion.div>
       )}
 
-      <div className="flex-1 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 lg:gap-8 min-h-0">
+      <div className="flex-1 grid grid-cols-12 gap-4 lg:gap-8 min-h-0">
         {/* Main Entry Form */}
-        <div className="md:col-span-2 xl:col-span-8 flex flex-col min-h-0 order-first md:order-none xl:h-auto">
+        <div className="col-span-8 flex flex-col min-h-0 order-none">
           <div className="bg-white border border-border-base/60 rounded-card overflow-hidden flex flex-col h-full shadow-sm">
-            <div className="p-3 lg:p-4 border-b border-border-base/60 flex justify-between items-center bg-slate-50/50 shrink-0 px-4 lg:px-8">
+            <div className="p-2 lg:p-4 border-b border-border-base/60 flex justify-between items-center bg-slate-50/50 shrink-0 px-2 lg:px-8">
               <h2 className="font-bold text-text-main text-[10px] lg:text-[11px] uppercase tracking-[0.15em] flex items-center gap-2">
                 Project Allocation Matrix
               </h2>
@@ -397,14 +420,14 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="xl:col-span-4 flex flex-col min-h-0 bg-transparent">
+        <div className="col-span-4 flex flex-col min-h-0 bg-transparent">
           <div className="bg-white border border-border-base/60 rounded-card overflow-hidden flex flex-col h-full shadow-sm relative">
-            <div className="p-3 lg:p-4 border-b border-border-base/60 flex items-center justify-between bg-white shrink-0 px-4 lg:px-8 z-20">
+            <div className="p-2 lg:p-4 border-b border-border-base/60 flex items-center justify-between bg-white shrink-0 px-2 lg:px-8 z-20">
               <div className="flex items-center gap-2">
                 <ShieldCheck className="w-3.5 h-3.5 lg:w-4 h-4 text-primary-base" />
                 <h2 className="font-bold text-text-main text-[10px] lg:text-[11px] uppercase tracking-[0.15em]">Chat Panel</h2>
               </div>
-              {messages.length > 0 && <div className="w-1.5 lg:w-2 h-1.5 lg:h-2 rounded-full bg-success-base shadow-[0_0_8px_#10B981]" />}
+              {messages.length > 0 && <Bell className="w-3 h-3 lg:w-3.5 h-3.5 text-success-base animate-pulse" />}
             </div>
             
             <div className="flex-1 overflow-y-auto p-4 lg:p-6 space-y-4 lg:space-y-6 flex flex-col scrollbar-hide bg-slate-50/10 min-h-0 z-10">

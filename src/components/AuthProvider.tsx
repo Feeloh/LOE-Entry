@@ -26,10 +26,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const login = async (role: UserRole) => {
+    const getMockDisplayName = (r: UserRole) => {
+      switch (r) {
+        case 'manager': return 'Sarah Lead';
+        case 'admin': return 'Mock Admin';
+        case 'employee': return 'John Dev';
+        default: return `Mock ${r.charAt(0).toUpperCase() + r.slice(1)}`;
+      }
+    };
+
     const mockUser: UserProfile = {
       uid: `mock_${role}_id`,
       email: `${role}@example.com`,
-      displayName: `Mock ${role.charAt(0).toUpperCase() + role.slice(1)}`,
+      displayName: getMockDisplayName(role),
       role: role,
       title: role === 'employee' ? 'Devops Engineer' : undefined
     };
@@ -44,12 +53,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const switchRole = (role: UserRole) => {
     if (profile) {
+      const getMockDisplayName = (r: UserRole) => {
+        switch (r) {
+          case 'manager': return 'Sarah Lead';
+          case 'admin': return 'Mock Admin';
+          case 'employee': return 'John Dev';
+          default: return `Mock ${r.charAt(0).toUpperCase() + r.slice(1)}`;
+        }
+      };
+
       const updatedProfile: UserProfile = { 
         ...profile, 
         role, 
         uid: `mock_${role}_id`, 
         email: `${role}@example.com`, 
-        displayName: `Mock ${role.charAt(0).toUpperCase() + role.slice(1)}`,
+        displayName: getMockDisplayName(role),
         title: role === 'employee' ? 'Devops Engineer' : undefined
       };
       sessionStore.save({ currentUser: updatedProfile });

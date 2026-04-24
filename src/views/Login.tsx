@@ -17,7 +17,7 @@ export default function Login() {
     },
     { 
       role: 'manager', 
-      title: 'Manager', 
+      title: 'Team Lead', 
       desc: 'Review team submissions and manage project health.', 
       icon: Briefcase,
       color: 'bg-success-base'

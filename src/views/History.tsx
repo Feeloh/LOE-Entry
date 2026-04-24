@@ -66,9 +66,9 @@ export default function History() {
   const totalAllocated = calculateTotal();
 
   return (
-    <div className="h-full flex flex-col space-y-4 lg:space-y-8 pb-4 min-h-0 max-w-screen-2xl mx-auto w-full px-4 lg:px-8">
-      <header className="flex flex-col md:flex-row justify-between items-start md:items-center shrink-0 mb-4 lg:mb-8 mt-4 lg:mt-0 gap-4">
-        <div className="flex flex-col md:flex-row items-center gap-3 lg:gap-4 w-full md:w-auto">
+    <div className="h-full flex flex-col space-y-4 lg:space-y-8 pb-4 min-h-0 max-w-screen-2xl mx-auto w-full px-2 lg:px-8">
+      <header className="flex flex-row justify-between items-center shrink-0 mb-4 lg:mb-8 mt-4 lg:mt-0 gap-4">
+        <div className="flex flex-row items-center gap-3 lg:gap-4 w-auto">
           <span className="text-[10px] lg:text-[12px] font-bold text-text-muted uppercase tracking-widest opacity-60 shrink-0">Reporting Period:</span>
           <div className="relative">
             <button 
@@ -159,9 +159,9 @@ export default function History() {
         </div>
       </header>
 
-      <div className="flex-1 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-4 lg:gap-8 min-h-0">
+      <div className="flex-1 grid grid-cols-12 gap-4 lg:gap-8 min-h-0">
         {/* Main Historical View */}
-        <div className="md:col-span-2 xl:col-span-8 flex flex-col min-h-0 order-first md:order-none xl:h-auto">
+        <div className="col-span-8 flex flex-col min-h-0 order-none">
           <div className="bg-white border border-border-base/60 rounded-card overflow-hidden flex flex-col h-full shadow-sm">
             <div className="p-3 lg:p-4 border-b border-border-base/60 flex justify-between items-center bg-slate-50/50 shrink-0 px-4 lg:px-8">
               <h2 className="font-bold text-text-main text-[10px] lg:text-[11px] uppercase tracking-[0.15em] flex items-center gap-2">
@@ -228,7 +228,7 @@ export default function History() {
         </div>
 
         {/* Verification Archive */}
-        <div className="xl:col-span-4 flex flex-col min-h-0 bg-transparent">
+        <div className="col-span-4 flex flex-col min-h-0 bg-transparent">
           <div className="bg-white border border-border-base/60 rounded-card overflow-hidden flex flex-col h-full shadow-sm relative">
             <div className="p-3 lg:p-4 border-b border-border-base/60 flex items-center justify-between bg-white shrink-0 px-4 lg:px-8 z-20">
               <div className="flex items-center gap-2">
