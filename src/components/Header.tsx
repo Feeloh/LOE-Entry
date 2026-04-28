@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Search, ChevronDown, LogOut, User, Shield, Users as UsersIcon } from 'lucide-react';
+import { Search, ChevronDown, LogOut, User, Shield, Users as UsersIcon, HelpCircle, X, Info } from 'lucide-react';
 import { useAuth } from './AuthProvider';
 import { cn } from '../lib/utils';
 import { motion, AnimatePresence } from 'motion/react';
@@ -7,18 +7,47 @@ import { sessionStore } from '../lib/sessionStore';
 
 interface HeaderProps {
   onNavigate: (id: string) => void;
+  activeId: string;
 }
 
-export function Header({ onNavigate }: HeaderProps) {
+const HELP_CONTENT: Record<string, { title: string; hint: string; description: string }> = {
+  'dashboard': {
+    title: 'Submission Portal',
+    hint: 'Allocating Effort',
+    description: 'Use the Matrix to distribute your monthly hours. The system automatically calculates your total utilization percentage based on 168 available hours. Remember to click "Submit Review" once finalized.'
+  },
+  'team-review': {
+    title: 'Audit & Review',
+    hint: 'Quality Assurance',
+    description: 'Monitor your team\'s reporting status in real-time. Review specific entries, request revisions for discrepancies, or provide final approvals for the reporting period.'
+  },
+  'planning': {
+    title: 'Strategic Analysis',
+    hint: 'Resource Optimization',
+    description: 'High-level overview of organizational health. Analyze department utilization targets versus actuals and identify potential talent bottlenecks in project delivery.'
+  },
+  'history': {
+    title: 'LOE Archive',
+    hint: 'Audit Trail',
+    description: 'Access historical records of all submitted and approved LOEs. Use the lookup filter to find specific reporting periods or individual team member records.'
+  }
+};
+
+export function Header({ onNavigate, activeId }: HeaderProps) {
   const { profile, logout, switchRole } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isHelpOpen, setIsHelpOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const helpRef = useRef<HTMLDivElement>(null);
   const currentMonth = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' }).format(new Date());
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setIsMenuOpen(false);
+      }
+      if (helpRef.current && !helpRef.current.contains(event.target as Node)) {
+        setIsHelpOpen(false);
       }
     }
     document.addEventListener('mousedown', handleClickOutside);
@@ -52,12 +81,78 @@ export function Header({ onNavigate }: HeaderProps) {
     }
   };
 
+  const currentHelp = HELP_CONTENT[activeId] || HELP_CONTENT['dashboard'];
+
   return (
     <header className="h-20 border-b border-border-base flex items-center justify-between px-10 bg-white sticky top-0 z-50 shadow-sm shadow-black/2">
       <div className="flex items-center gap-10 flex-1">
       </div>
 
       <div className="flex items-center gap-6">
+        {/* Help Center */}
+        <div className="relative" ref={helpRef}>
+          <button
+            onClick={() => setIsHelpOpen(!isHelpOpen)}
+            className={cn(
+              "w-10 h-10 rounded-full flex items-center justify-center transition-all border border-transparent",
+              isHelpOpen ? "bg-slate-100 border-slate-200 text-primary-base" : "text-text-muted hover:bg-slate-50 hover:text-text-main"
+            )}
+            title="Help Center"
+          >
+            <HelpCircle className="w-5 h-5" />
+          </button>
+
+          <AnimatePresence>
+            {isHelpOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                className="absolute right-0 mt-3 w-80 bg-white border border-border-base rounded-2xl shadow-2xl overflow-hidden z-[60]"
+              >
+                <div className="p-5">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-lg bg-primary-base/10 flex items-center justify-center text-primary-base">
+                        <Info className="w-4 h-4" />
+                      </div>
+                      <h3 className="font-bold text-text-main text-sm">Help Center</h3>
+                    </div>
+                    <button 
+                      onClick={() => setIsHelpOpen(false)}
+                      className="p-1 hover:bg-slate-100 rounded-md transition-colors"
+                    >
+                      <X className="w-4 h-4 text-text-muted" />
+                    </button>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div className="p-4 bg-slate-50 rounded-xl border border-slate-200/60">
+                      <p className="text-[10px] font-black text-primary-base uppercase tracking-[0.2em] mb-1">{currentHelp.hint}</p>
+                      <h4 className="text-sm font-bold text-text-main mb-2">{currentHelp.title}</h4>
+                      <p className="text-xs text-text-muted font-medium leading-relaxed">
+                        {currentHelp.description}
+                      </p>
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                      <button className="text-[10px] text-left font-bold text-primary-base hover:underline uppercase tracking-widest">
+                        View Documentation &rarr;
+                      </button>
+                      <button className="text-[10px] text-left font-bold text-text-muted hover:text-text-main hover:underline uppercase tracking-widest">
+                        Contact Support
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-primary-dark/5 p-3 text-center border-t border-border-base/50">
+                  <p className="text-[9px] font-bold text-text-muted opacity-60 uppercase tracking-widest">PixelEdge LOE System v1.4</p>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
         <div className="relative" ref={menuRef}>
           <button 
             onClick={() => setIsMenuOpen(!isMenuOpen)}

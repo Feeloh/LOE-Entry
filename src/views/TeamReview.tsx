@@ -5,6 +5,7 @@ import { EffortSubmission, Message } from '../types';
 import { motion, AnimatePresence } from 'motion/react';
 import { CheckCircle, RotateCcw, MessageSquare, AlertTriangle, Send, MoreHorizontal, ShieldCheck, Trash2, AlertCircle, Plus, ChevronLeft, ChevronRight, ChevronDown, Bell } from 'lucide-react';
 import { cn } from '../lib/utils';
+import { ReminderBanner } from '../components/ReminderBanner';
 
 export default function TeamReview() {
   const { profile } = useAuth();
@@ -91,6 +92,7 @@ export default function TeamReview() {
 
   return (
     <div className="h-full flex flex-col space-y-4 lg:space-y-8 pb-4 min-h-0 max-w-screen-2xl mx-auto w-full px-2 lg:px-8">
+      {profile?.role && <ReminderBanner role={profile.role} context="review" />}
       <header className="flex flex-row justify-between items-center shrink-0 mb-4 lg:mb-8 mt-4 lg:mt-0 gap-4">
         <div className="flex flex-row items-center justify-between w-full gap-4">
           <div className="flex items-center gap-3 lg:gap-4 w-auto">

@@ -5,6 +5,7 @@ import { EffortSubmission, Project, Allocation, Message } from '../types';
 import { Save, Send, Plus, Info, MessageSquare, AlertCircle, LayoutDashboard, ChevronLeft, ChevronRight, ChevronDown, Trash2, MoreHorizontal, ShieldCheck, Bell } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../lib/utils';
+import { ReminderBanner } from '../components/ReminderBanner';
 
 export default function Dashboard() {
   const { profile } = useAuth();
@@ -188,6 +189,7 @@ export default function Dashboard() {
 
   return (
     <div className="h-full flex flex-col space-y-4 lg:space-y-8 pb-4 min-h-0 max-w-screen-2xl mx-auto w-full px-2 lg:px-8">
+      {profile?.role && <ReminderBanner role={profile.role} context="submission" />}
       <header className="flex flex-row justify-between items-center shrink-0 mb-4 lg:mb-8 mt-4 lg:mt-0 gap-4">
         <div className="flex flex-row items-center gap-3 lg:gap-4 w-auto">
           <span className="text-[10px] lg:text-[12px] font-bold text-text-muted uppercase tracking-widest opacity-60 shrink-0">Reporting Period:</span>

@@ -54,7 +54,7 @@ function MainApp() {
     <div className="flex h-screen bg-[#F8F9FA] overflow-hidden">
       <Sidebar activeId={activeTab} onNavigate={setActiveTab} />
       <div className="flex-1 flex flex-col h-full min-w-0">
-        <Header onNavigate={setActiveTab} />
+        <Header activeId={activeTab} onNavigate={setActiveTab} />
         <main className="flex-1 overflow-hidden">
           <div className="h-full w-full p-8 overflow-y-auto scrollbar-hide">
             {renderContent()}

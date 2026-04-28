@@ -27,12 +27,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = async (role: UserRole) => {
     const getMockDisplayName = (r: UserRole) => {
-      switch (r) {
-        case 'manager': return 'Sarah Lead';
-        case 'admin': return 'Mock Admin';
-        case 'employee': return 'John Dev';
-        default: return `Mock ${r.charAt(0).toUpperCase() + r.slice(1)}`;
-      }
+      if (r === 'manager') return 'Sarah Lead';
+      if (r === 'admin') return 'Mock Admin';
+      if (r === 'employee') return 'John Dev';
+      const roleStr = r as string;
+      return `Mock ${roleStr.charAt(0).toUpperCase() + roleStr.slice(1)}`;
     };
 
     const mockUser: UserProfile = {
@@ -54,12 +53,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const switchRole = (role: UserRole) => {
     if (profile) {
       const getMockDisplayName = (r: UserRole) => {
-        switch (r) {
-          case 'manager': return 'Sarah Lead';
-          case 'admin': return 'Mock Admin';
-          case 'employee': return 'John Dev';
-          default: return `Mock ${r.charAt(0).toUpperCase() + r.slice(1)}`;
-        }
+        if (r === 'manager') return 'Sarah Lead';
+        if (r === 'admin') return 'Mock Admin';
+        if (r === 'employee') return 'John Dev';
+        const roleStr = r as string;
+        return `Mock ${roleStr.charAt(0).toUpperCase() + roleStr.slice(1)}`;
       };
 
       const updatedProfile: UserProfile = { 
