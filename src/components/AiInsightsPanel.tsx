@@ -21,6 +21,10 @@ export function AiInsightsPanel({ submissions, projects, selectedMonth, role, on
   const [insights, setInsights] = useState<string | null>(null);
 
   const generateInsights = async () => {
+    // Show qualitative template context while waiting for real-time analysis
+    const template = aiService.getInsightsTemplate(role || 'employee', selectedMonth);
+    setInsights(template);
+
     setLoading(true);
     const result = await aiService.getResourceInsights({
       submissions,
