@@ -11,9 +11,10 @@ interface AiInsightsPanelProps {
   projects: Project[];
   selectedMonth: string;
   role?: UserRole;
+  onInsightsGenerated?: (insights: string) => void;
 }
 
-export function AiInsightsPanel({ submissions, projects, selectedMonth, role }: AiInsightsPanelProps) {
+export function AiInsightsPanel({ submissions, projects, selectedMonth, role, onInsightsGenerated }: AiInsightsPanelProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -28,6 +29,7 @@ export function AiInsightsPanel({ submissions, projects, selectedMonth, role }: 
       role
     });
     setInsights(result);
+    if (onInsightsGenerated) onInsightsGenerated(result);
     setLoading(false);
   };
 

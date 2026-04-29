@@ -105,5 +105,57 @@ export const aiService = {
       console.error("AI History Chat Error:", error);
       return "I'm having trouble accessing your history right now. Please try again in a moment.";
     }
+  },
+
+  async getPlanningChatResponse(data: { 
+    submissions: EffortSubmission[], 
+    projects: Project[], 
+    insights: string | null, 
+    query: string,
+    username: string,
+    month: string
+  }) {
+    const { submissions, projects, insights, query, username, month } = data;
+
+    const context = {
+      month,
+      projectCount: projects.length,
+      submissionCount: submissions.length,
+      totalUtilization: submissions.reduce((acc, s) => acc + s.allocations.reduce((a, b) => a + b.plannedPercent, 0), 0) / (submissions.length || 1),
+      projects: projects.map(p => ({ name: p.name })),
+      topInsights: insights ? insights.substring(0, 1000) : "No strategic insights generated yet."
+    };
+
+    const systemInstruction = `You are the Strategic Resource Partner at PixelEdge. 
+    You are assisting ${username} with the planning data for ${month}.
+    
+    Current Environment Data:
+    ${JSON.stringify(context)}
+    
+    Strategic Insights Context:
+    ${insights || "Not available"}
+    
+    Guidelines:
+    1. Answer questions about resource allocation, project staffing, and potential imbalances.
+    2. Use the "Strategic Insights" as a primary source of truth if available.
+    3. If the user asks for specific personnel data, summarize it rather than listing every name if the list is long.
+    4. Provide actionable advice for resource redistribution.
+    5. Be concise, data-driven, and strategic.`;
+
+    try {
+      const response = await ai.models.generateContent({
+        model: "gemini-3-flash-preview",
+        contents: query,
+        config: {
+          systemInstruction,
+          temperature: 0.7,
+        }
+      });
+
+      return response.text;
+    } catch (error) {
+      console.error("AI Planning Chat Error:", error);
+      return "Strategic systems are currently under maintenance. Please try your query again shortly.";
+    }
   }
 };

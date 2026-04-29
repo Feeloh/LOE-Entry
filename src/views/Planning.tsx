@@ -23,11 +23,13 @@ import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../lib/utils';
 
 import { AiInsightsPanel } from '../components/AiInsightsPanel';
+import { AiPlanningAssistant } from '../components/AiPlanningAssistant';
 
 export default function Planning() {
   const { profile } = useAuth();
   const [reportData, setReportData] = useState<{ submissions: EffortSubmission[], projects: Project[] } | null>(null);
   const [loading, setLoading] = useState(true);
+  const [insights, setInsights] = useState<string | null>(null);
   
   const today = new Date();
   const currentMonthStr = today.toISOString().slice(0, 7);
@@ -163,12 +165,22 @@ export default function Planning() {
       </header>
 
       {profile?.role === 'admin' && (
-        <AiInsightsPanel 
-          submissions={submissions} 
-          projects={projects} 
-          selectedMonth={selectedMonth} 
-          role={profile.role}
-        />
+        <>
+          <AiInsightsPanel 
+            submissions={submissions} 
+            projects={projects} 
+            selectedMonth={selectedMonth} 
+            role={profile.role}
+            onInsightsGenerated={setInsights}
+          />
+          <AiPlanningAssistant 
+            submissions={submissions}
+            projects={projects}
+            insights={insights}
+            userName={profile.displayName || 'Admin'}
+            selectedMonth={selectedMonth}
+          />
+        </>
       )}
 
       {/* KPI Row */}
