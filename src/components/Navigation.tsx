@@ -12,7 +12,7 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
   { id: 'dashboard', label: 'LOE Entry', icon: LayoutDashboard, roles: ['employee', 'manager'] },
-  { id: 'team-review', label: 'Team Review', icon: Users, roles: ['manager', 'admin'] },
+  { id: 'team-review', label: 'Team Review', icon: Users, roles: ['manager'] },
   { id: 'planning', label: 'Planning', icon: BarChart2, roles: ['admin'] },
   { id: 'history', label: 'History', icon: History, roles: ['employee', 'manager'] },
 ];

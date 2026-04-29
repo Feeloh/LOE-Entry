@@ -23,7 +23,7 @@ function MainApp() {
 
   // Effect to handle role switches and unauthorized tabs
   React.useEffect(() => {
-    if (profile?.role === 'admin' && activeTab === 'dashboard') {
+    if (profile?.role === 'admin' && (activeTab === 'dashboard' || activeTab === 'team-review')) {
       setActiveTab('planning');
     }
   }, [profile?.role, activeTab]);

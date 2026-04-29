@@ -22,6 +22,8 @@ import {
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../lib/utils';
 
+import { AiInsightsPanel } from '../components/AiInsightsPanel';
+
 export default function Planning() {
   const { profile } = useAuth();
   const [reportData, setReportData] = useState<{ submissions: EffortSubmission[], projects: Project[] } | null>(null);
@@ -159,6 +161,15 @@ export default function Planning() {
            </div>
         </div>
       </header>
+
+      {profile?.role === 'admin' && (
+        <AiInsightsPanel 
+          submissions={submissions} 
+          projects={projects} 
+          selectedMonth={selectedMonth} 
+          role={profile.role}
+        />
+      )}
 
       {/* KPI Row */}
       <div className="grid grid-cols-4 gap-4 lg:gap-6 shrink-0 h-auto">

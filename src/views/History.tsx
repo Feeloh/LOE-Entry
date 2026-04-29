@@ -5,6 +5,7 @@ import { EffortSubmission, Message } from '../types';
 import { ChevronLeft, ChevronRight, ChevronDown, ShieldCheck, MoreHorizontal, AlertCircle, Lock } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../lib/utils';
+import { AiHistoryAssistant } from '../components/AiHistoryAssistant';
 
 export default function History() {
   const { profile } = useAuth();
@@ -285,6 +286,8 @@ export default function History() {
           </div>
         </div>
       </div>
+
+      {profile && <AiHistoryAssistant history={allSubmissions} userName={profile.displayName || 'User'} />}
 
       <footer className="shrink-0 pt-4 pb-2 text-center">
         <p className="text-[10px] font-bold text-text-muted opacity-40 uppercase tracking-[0.3em]">

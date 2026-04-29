@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../components/AuthProvider';
 import { submissionService } from '../services/submissionService';
-import { EffortSubmission, Message } from '../types';
+import { EffortSubmission, Message, Project } from '../types';
 import { motion, AnimatePresence } from 'motion/react';
 import { CheckCircle, RotateCcw, MessageSquare, AlertTriangle, Send, MoreHorizontal, ShieldCheck, Trash2, AlertCircle, Plus, ChevronLeft, ChevronRight, ChevronDown, Bell } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { ReminderBanner } from '../components/ReminderBanner';
+import { AiInsightsPanel } from '../components/AiInsightsPanel';
 
 export default function TeamReview() {
   const { profile } = useAuth();
   const [submissions, setSubmissions] = useState<EffortSubmission[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
   const [selectedSubmission, setSelectedSubmission] = useState<EffortSubmission | null>(null);
   const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -25,15 +27,19 @@ export default function TeamReview() {
   const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
 
   useEffect(() => {
-    async function fetchSubmissions() {
+    async function fetchData() {
       if (!profile) return;
       setLoading(true);
-      const data = await submissionService.getTeamSubmissions(profile.uid, selectedMonth);
-      setSubmissions(data);
-      if (data.length > 0) setSelectedSubmission(data[0]);
+      const [subsData, projsData] = await Promise.all([
+        submissionService.getTeamSubmissions(profile.uid, selectedMonth),
+        submissionService.getProjects()
+      ]);
+      setSubmissions(subsData);
+      setProjects(projsData);
+      if (subsData.length > 0) setSelectedSubmission(subsData[0]);
       setLoading(false);
     }
-    fetchSubmissions();
+    fetchData();
   }, [profile, selectedMonth]);
 
   useEffect(() => {
@@ -93,6 +99,16 @@ export default function TeamReview() {
   return (
     <div className="h-full flex flex-col space-y-4 lg:space-y-8 pb-4 min-h-0 max-w-screen-2xl mx-auto w-full px-2 lg:px-8">
       {profile?.role && <ReminderBanner role={profile.role} context="review" />}
+      
+      {profile?.role === 'manager' && submissions.length > 0 && (
+        <AiInsightsPanel 
+          submissions={submissions} 
+          projects={projects} 
+          selectedMonth={selectedMonth}
+          role={profile.role}
+        />
+      )}
+
       <header className="flex flex-row justify-between items-center shrink-0 mb-4 lg:mb-8 mt-4 lg:mt-0 gap-4">
         <div className="flex flex-row items-center justify-between w-full gap-4">
           <div className="flex items-center gap-3 lg:gap-4 w-auto">
